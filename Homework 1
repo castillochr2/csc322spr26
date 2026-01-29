@@ -1,1 +1,30 @@
+ //*Must have a scene, camera, and renderer*
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize( window.innerWidth, window.innerHeight );
+document.body.appendChild( renderer.domElement );
 
+
+const camera = new THREE.PerspectiveCamera( 15, window.innerWidth / window.innerHeight, 1, 50 );
+camera.position.set( 10, 0, 10  );
+camera.lookAt( 0, 0, 0 );
+const scene = new THREE.Scene();
+const material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
+
+
+const points = [];
+const A = new THREE.Vector3( -1, 0, 0 ) // left corner
+const B = new THREE.Vector3( 0, 1, 0 ) //top
+const C = new THREE.Vector3( 1, 0, 0 ) //right corner
+
+
+points.push(A,B); //connects left corner to top
+points.push(B,C); //connects right corner to top
+points.push(A,C); //both corners connects
+
+
+const geometry = new THREE.BufferGeometry().setFromPoints( points );
+const triangle = new THREE.Line( geometry, material );
+
+
+scene.add( triangle );
+renderer.render( scene, camera );
