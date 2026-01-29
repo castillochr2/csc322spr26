@@ -1,0 +1,39 @@
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize( window.innerWidth, window.innerHeight );
+document.body.appendChild( renderer.domElement );
+
+
+const camera = new THREE.PerspectiveCamera( 15, window.innerWidth / window.innerHeight, 1, 50 );
+camera.position.set( 10, 0, 10  );
+camera.lookAt( 0, 0, 0 );
+
+
+const scene = new THREE.Scene();
+const material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
+
+
+const points = [];
+//4 vertices, 6 edges
+const A = new THREE.Vector3( -1, 0, 0 ) // left corner
+const B = new THREE.Vector3( 0, 1, 0 ) //top
+const C = new THREE.Vector3( 1, 0, 0 ) //right corner
+const D = new THREE.Vector3( 0, -1, 3 ) 
+
+
+points.push(A,B); //connects left corner to top
+points.push(B,C); //connects right corner to top
+points.push(A,C); //both corners connects
+
+
+//connects every origanle triangle point to the new vertices
+points.push(A,D); 
+points.push(B,D);
+points.push(C,D);
+
+
+const geometry = new THREE.BufferGeometry().setFromPoints( points );
+const tetrahedron = new THREE.Line( geometry, material );
+
+
+scene.add( tetrahedron );
+renderer.render( scene, camera );
